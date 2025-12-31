@@ -1,0 +1,131 @@
+<!-- <div style="margin-bottom: 12px">
+  <button (click)="generatePdf()">Generate PDF</button>
+</div> -->
+
+<table
+  border="1"
+  cellpadding="8"
+  cellspacing="0"
+  width="100%"
+  style="display: none"
+>
+  <thead>
+    <tr>
+      <th>
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAll"
+          (change)="toggleSelectAll()"
+        />
+      </th>
+      <th>Nama Produk</th>
+      <th>Qty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of items">
+      <td>
+        <input
+          type="checkbox"
+          [(ngModel)]="item.selected"
+          (change)="toggleItem()"
+        />
+      </td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.qty }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="padding: 20px; width: 100%">
+  <!-- <div style="text-align: center; margin-bottom: 20px">
+    <img src="logo-flexofast.jpg" width="250" />
+  </div> -->
+  <div style="display: flex; justify-content: space-between; height: 50px">
+    <h3>Daftar Label Pengiriman</h3>
+
+    <button
+      type="button"
+      (click)="generateSelectedLabels()"
+      style="
+        margin-bottom: 12px;
+        padding: 2px 12px;
+        cursor: pointer;
+        color: white;
+        background: green;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+      "
+    >
+      Print
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <table class="shipment-table">
+    <thead>
+      <tr>
+        <th class="col-check">
+          <input
+            type="checkbox"
+            [(ngModel)]="selectAllPoduct"
+            (change)="toggleSelectAllProduct()"
+          />
+        </th>
+        <th>No Resi</th>
+        <th>Pengirim</th>
+        <th>Penerima</th>
+        <th>Nama Barang</th>
+        <th class="col-qty">Qty</th>
+        <th>Kurir</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let shipment of shipments">
+        <tr *ngFor="let item of shipment.items; let i = index" class="item-row">
+          <!-- Checkbox shipment -->
+          <td
+            class="col-check"
+            *ngIf="i === 0"
+            [attr.rowspan]="shipment.items.length"
+          >
+            <input type="checkbox" [(ngModel)]="shipment.selected" />
+          </td>
+
+          <!-- Item -->
+          <td
+            class="item-resi"
+            *ngIf="i === 0"
+            [attr.rowspan]="shipment.items.length"
+          >
+            {{ shipment.resi }}
+          </td>
+
+          <!-- Pengirim -->
+          <td *ngIf="i === 0" [attr.rowspan]="shipment.items.length">
+            {{ shipment.sender.name }}
+          </td>
+
+          <!-- Penerima -->
+          <td *ngIf="i === 0" [attr.rowspan]="shipment.items.length">
+            {{ shipment.receiver.name }}
+          </td>
+
+          <td class="item-name">{{ item.name }}</td>
+          <td class="col-qty">{{ item.qty }}</td>
+
+          <!-- Ekspedisi -->
+          <td *ngIf="i === 0" [attr.rowspan]="shipment.items.length">
+            <span class="badge" [ngClass]="getCourierClass(shipment.courier)">
+              {{ shipment.courier }}
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- <button (click)="generateSelectedLabels()">Generate Label Pengiriman</button> -->

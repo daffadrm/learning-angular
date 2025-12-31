@@ -1,0 +1,99 @@
+.shipment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+}
+
+.shipment-table thead {
+  background: #e65c00;
+  color: white;
+}
+
+.shipment-table th,
+.shipment-table td {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.shipment-table th {
+  text-align: left;
+  font-weight: 600;
+  /* color: #374151; */
+}
+
+.shipment-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Kolom khusus */
+.col-check {
+  width: 40px;
+  text-align: center;
+}
+
+.col-qty {
+  width: 70px;
+  text-align: center;
+}
+
+/* Item */
+.item-name {
+  font-weight: 500;
+}
+
+/* Teks abu */
+.text-muted {
+  color: #6b7280;
+}
+
+/* Badge ekspedisi */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.badge-default {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Lazada */
+.badge-lazada {
+  background: #fff7ed;
+  color: #f97316;
+}
+
+/* LEX */
+.badge-lex {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+/* JNE */
+.badge-jne {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* J&T */
+.badge-jnt {
+  background: #ffe4e6;
+  color: #e11d48;
+}
+
+/* SiCepat */
+.badge-sicepat {
+  background: #ecfeff;
+  color: #0e7490;
+}
+
+/* Shopee */
+.badge-shopee {
+  background: #ffffec;
+  color: #d48105;
+}
