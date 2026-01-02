@@ -1,0 +1,65 @@
+<div class="p-2">
+  <div style="display: flex; gap: 10px">
+    <p-multiselect
+      display="chip"
+      [options]="cols"
+      [(ngModel)]="selectedColumns"
+      optionLabel="header"
+      selectedItemsLabel="{0} columns selected"
+      [style]="{ 'min-width': '200px' }"
+      placeholder="Choose Columns"
+    ></p-multiselect>
+
+    <!-- Export Buttons -->
+    <button
+      pButton
+      label="Export CSV"
+      icon="pi pi-file"
+      (click)="exportCSV()"
+      class="p-button-sm"
+    ></button>
+
+    <button
+      pButton
+      label="Export Excel"
+      icon="pi pi-file-excel"
+      (click)="exportExcel()"
+      class="p-button-sm"
+    ></button>
+  </div>
+  <div class="card p-2 mt-2">
+    <p-table
+      [columns]="selectedColumns"
+      [value]="products"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [rows]="15"
+      [rowsPerPageOptions]="[5, 10, 15, 20]"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [scrollable]="true"
+      scrollHeight="500px"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    >
+      <ng-template #header let-columns>
+        <tr>
+          <th>Code</th>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-product let-columns="columns">
+        <tr>
+          <td>{{ product.code }}</td>
+          <td *ngFor="let col of columns">
+            {{ product[col.field] }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <span>Showing products</span>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

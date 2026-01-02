@@ -5,6 +5,7 @@ import { LabelComponent } from './pages/label/label.component';
 import { EditorComponent } from './pages/editor/editor.component';
 import { MasterLabelComponent } from './pages/master-label/master-label.component';
 import { MasterLabelDetailComponent } from './pages/master-label-detail/master-label-detail.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,10 @@ export const routes: Routes = [
       {
         path: 'master-label/detail/:id',
         component: MasterLabelDetailComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
       },
     ],
   },
