@@ -414,9 +414,9 @@ export class DashboardComponent {
 
   courierLogos: Record<string, string> = {};
   async ngOnInit() {
-    this.lazadaImage = await this.getBase64FromUrl('/lazada.png');
-    this.spxImage = await this.getBase64FromUrl('/logo-spx.png');
-    this.jneImage = await this.getBase64FromUrl('/logo-jne.jpg');
+    this.lazadaImage = await this.getBase64FromUrl('/assets/lazada.png');
+    this.spxImage = await this.getBase64FromUrl('/assets/logo-spx.png');
+    this.jneImage = await this.getBase64FromUrl('/assets/logo-jne.jpg');
 
     this.courierLogos = {
       lazada: this.lazadaImage,
@@ -425,9 +425,11 @@ export class DashboardComponent {
     };
   }
   async generateLabel(shipments: any) {
-    const logoBase64 = await this.getBase64FromUrl('/logo-flexofast.jpg');
-    const barcode = await this.getBase64FromUrl('/barcode.jpg');
-    const barcode2 = await this.getBase64FromUrl('/barcode-2.jpg');
+    const logoBase64 = await this.getBase64FromUrl(
+      '/assets/logo-flexofast.jpg'
+    );
+    const barcode = await this.getBase64FromUrl('/assets/barcode.jpg');
+    const barcode2 = await this.getBase64FromUrl('/assets/barcode-2.jpg');
 
     return {
       pageSize: { width: 288, height: 800 },

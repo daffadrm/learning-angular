@@ -6,22 +6,25 @@ import { EditorComponent } from './pages/editor/editor.component';
 import { MasterLabelComponent } from './pages/master-label/master-label.component';
 import { MasterLabelDetailComponent } from './pages/master-label-detail/master-label-detail.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { AuthGuard } from './services/auth/auth.guard';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    path: 'login',
+    component: LoginComponent,
   },
 
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
         component: DashboardComponent,
       },
+
       {
         path: 'label',
         component: LabelComponent,
@@ -42,6 +45,8 @@ export const routes: Routes = [
         path: 'orders',
         component: OrdersComponent,
       },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
+  { path: '**', redirectTo: '' },
 ];

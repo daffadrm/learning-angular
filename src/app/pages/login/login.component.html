@@ -1,0 +1,44 @@
+<div class="login-bg">
+  <div class="login-card">
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px">
+      <div class="text-center mb-4">
+        <img
+          src="assets/logo-flexofast.jpg"
+          width="150"
+          alt="Logo"
+          class="mb-3"
+        />
+      </div>
+
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            [(ngModel)]="username"
+            name="username"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Enter password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
