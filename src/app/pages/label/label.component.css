@@ -1,0 +1,34 @@
+.editor {
+  display: grid;
+  grid-template-columns: 200px 1fr 240px;
+  height: 93lvh;
+}
+
+.sidebar {
+  padding: 12px;
+  background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.canvas {
+  background: #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.property {
+  padding: 12px;
+  background: #fafafa;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stage {
+  background: white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}

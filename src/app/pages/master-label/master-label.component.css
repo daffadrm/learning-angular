@@ -1,0 +1,26 @@
+.label-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.label-table th,
+.label-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.label-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.label-table tr:hover {
+  background-color: #fafafa;
+}
+
+.edit-btn {
+  padding: 6px 12px;
+  cursor: pointer;
+}

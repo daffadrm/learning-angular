@@ -1,0 +1,43 @@
+<div class="editor">
+  <!-- ================= LEFT SIDEBAR ================= -->
+  <div class="sidebar">
+    <h3>Elements</h3>
+
+    <button type="button" (click)="addText()">➕ Text</button>
+    <button type="button" (click)="addRect()">➕ Kotak (Border)</button>
+
+    <hr />
+
+    <h3>File</h3>
+    <button type="button" (click)="exportJSON()">💾 Export JSON</button>
+
+    <label class="file-input">
+      📂 Import JSON
+      <input type="file" accept=".json" (change)="importJSON($event)" />
+    </label>
+
+    <button type="button" (click)="exportPDF()">🖨 Export PDF</button>
+  </div>
+
+  <div class="canvas">
+    <div #stageContainer class="stage"></div>
+  </div>
+
+  <div class="property" *ngIf="selectedNode">
+    <h3>Properties</h3>
+
+    <button *ngIf="selectedNode" class="delete-btn" (click)="deleteSelected()">
+      Delete
+    </button>
+    <hr />
+
+    <h3>Layer</h3>
+
+    <div class="layer-buttons">
+      <button type="button" (click)="bringToFront()">⬆ Front</button>
+      <button type="button" (click)="sendToBack()">⬇ Back</button>
+      <button type="button" (click)="bringForward()">↑ Forward</button>
+      <button type="button" (click)="sendBackward()">↓ Backward</button>
+    </div>
+  </div>
+</div>

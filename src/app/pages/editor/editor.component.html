@@ -1,0 +1,25 @@
+<div>
+  <div class="playground">
+    <div class="editor">
+      <!-- <textarea
+      [(ngModel)]="editorCode"
+      (input)="updatePreview()"
+      spellcheck="false"
+      ></textarea> -->
+
+      <ngx-monaco-editor
+        [options]="editorOptions"
+        [(ngModel)]="editorCode"
+        (ngModelChange)="updatePreview()"
+        style="height: 100%"
+      ></ngx-monaco-editor>
+    </div>
+
+    <div class="preview">
+      <iframe *ngIf="pdfUrl" [src]="pdfUrl"></iframe>
+    </div>
+  </div>
+  <div>
+    <button (click)="saveCode()">save</button>
+  </div>
+</div>
