@@ -1,49 +1,63 @@
 <div class="p-2">
-  <div style="display: flex; gap: 10px">
+  <div style="display: flex; gap: 10px; justify-content: space-between">
     <p-multiselect
       display="chip"
       [options]="cols"
       [(ngModel)]="selectedColumns"
       optionLabel="header"
-      selectedItemsLabel="{0} columns selected"
+      selectedItemsLabel="{0} kolom dipilih"
       [style]="{ 'min-width': '200px' }"
-      placeholder="Choose Columns"
+      placeholder="Pilih Kolom"
+      (onChange)="onColumnToggle()"
     ></p-multiselect>
 
     <!-- Export Buttons -->
-    <button
+    <!-- <button
       pButton
       label="Export CSV"
       icon="pi pi-file"
       (click)="exportCSV()"
       class="p-button-sm"
-    ></button>
+      severity="primary"
+    ></button> -->
 
-    <button
+    <!-- <button
       pButton
       label="Export Excel"
       icon="pi pi-file-excel"
       (click)="exportExcel()"
-      class="p-button-sm"
-    ></button>
+      class="p-button-sm p-button-primary"
+    ></button> -->
+
+    <p-splitButton
+      label="Export"
+      icon="pi pi-download"
+      [model]="exportItems"
+      size="small"
+    ></p-splitButton>
   </div>
   <div class="card p-2 mt-2">
     <p-table
+      #dt
+      [lazy]="true"
+      exportFilename="{{ filename }}"
+      (onLazyLoad)="loadOrders($event)"
       [columns]="selectedColumns"
-      [value]="products"
+      [value]="orders"
+      [loading]="loading"
       [tableStyle]="{ 'min-width': '50rem' }"
       [paginator]="true"
       [rows]="15"
-      [rowsPerPageOptions]="[5, 10, 15, 20]"
+      [rowsPerPageOptions]="[15, 50, 100, 500, 1000]"
+      [totalRecords]="totalRecords"
       [tableStyle]="{ 'min-width': '50rem' }"
       [scrollable]="true"
       scrollHeight="500px"
       [showCurrentPageReport]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      currentPageReportTemplate="Menampilkan {first} hingga {last} dari {totalRecords} data"
     >
       <ng-template #header let-columns>
         <tr>
-          <th>Code</th>
           <th *ngFor="let col of columns">
             {{ col.header }}
           </th>
@@ -51,14 +65,21 @@
       </ng-template>
       <ng-template #body let-product let-columns="columns">
         <tr>
-          <td>{{ product.code }}</td>
           <td *ngFor="let col of columns">
-            {{ product[col.field] }}
+            <ng-container [ngSwitch]="col.type">
+              <span *ngSwitchCase="'date'">
+                {{ product[col.field] | date : "dd/MM/yyyy, HH:mm" }}
+              </span>
+
+              <span *ngSwitchDefault>
+                {{ product[col.field] }}
+              </span>
+            </ng-container>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="paginatorleft">
-        <span>Showing products</span>
+        <span> Data Pesanan</span>
       </ng-template>
     </p-table>
   </div>

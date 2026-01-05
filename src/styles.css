@@ -8,3 +8,70 @@
 .bg-primary {
   background-color: #e65c00 !important;
 }
+
+:root {
+  --p-primary-color: #f97316 !important;
+  --p-primary-contrast-color: #ffffff !important;
+
+  --p-primary-50: #fff7ed !important;
+  --p-primary-100: #ffedd5 !important;
+  --p-primary-200: #fed7aa !important;
+  --p-primary-300: #fdba74 !important;
+  --p-primary-400: #fb923c !important;
+  --p-primary-500: #f97316 !important;
+  --p-primary-600: #ea580c !important;
+  --p-primary-700: #c2410c !important;
+  --p-primary-800: #9a3412 !important;
+  --p-primary-900: #7c2d12 !important;
+
+  --p-button-primary-background: #f97316;
+  --p-button-primary-border-color: #f97316;
+  --p-button-primary-color: #ffffff;
+
+  --p-button-primary-hover-background: #ea580c;
+  --p-button-primary-hover-border-color: #ea580c;
+
+  --p-button-primary-active-background: #c2410c;
+  --p-button-primary-active-border-color: #c2410c;
+}
+
+/* .p-theme {
+  --p-primary-50: #fff7ed;
+  --p-primary-100: #ffedd5;
+  --p-primary-200: #fed7aa;
+  --p-primary-300: #fdba74;
+  --p-primary-400: #fb923c;
+  --p-primary-500: #f97316;
+  --p-primary-600: #ea580c;
+  --p-primary-700: #c2410c;
+  --p-primary-800: #9a3412;
+  --p-primary-900: #7c2d12;
+
+  --p-primary-color: #f97316;
+
+  --p-button-primary-background: var(--p-primary-500);
+  --p-button-primary-border-color: var(--p-primary-500);
+  --p-button-primary-color: #ffffff;
+
+  --p-button-primary-hover-background: var(--p-primary-600);
+  --p-button-primary-hover-border-color: var(--p-primary-600);
+
+  --p-button-primary-active-background: var(--p-primary-700);
+  --p-button-primary-active-border-color: var(--p-primary-700);
+
+  --p-input-focus-border-color: var(--p-primary-500);
+  --p-input-focus-ring-color: rgba(249, 115, 22, 0.25);
+
+  --p-select-overlay-border-color: var(--p-primary-500);
+  --p-select-option-selected-background: var(--p-primary-100);
+  --p-select-option-selected-color: var(--p-primary-700);
+
+  --p-select-option-hover-background: var(--p-primary-50);
+
+  --p-focus-ring-color: rgba(249, 115, 22, 0.35);
+  --p-focus-ring-width: 2px;
+
+  --p-highlight-background: #ffedd5;
+  --p-highlight-color: #9a3412;
+  --p-multiselect-option-selected-focus-background: var(var(--p-primary-500));
+} */

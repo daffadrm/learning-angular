@@ -6,15 +6,18 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { provideHttpClient } from '@angular/common/http';
+import Lara from '@primeuix/themes/lara';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimations(),
     provideRouter(routes),
+    provideHttpClient(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: Lara,
         options: {
           prefix: 'p',
           darkModeSelector: 'none',
