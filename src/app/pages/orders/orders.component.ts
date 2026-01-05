@@ -32,6 +32,7 @@ export class OrdersComponent implements OnInit {
   orders: Order[] = [];
   cols: Column[] = [
     { field: 'pickup_code', header: 'Kode', default: true },
+    { field: 'ordnum', header: 'No Order', default: false },
     { field: 'cust_name', header: 'Nama Pelanggan', default: true },
     { field: 'brand', header: 'Brand', default: false },
     { field: 'courier', header: 'Kurir', default: true },

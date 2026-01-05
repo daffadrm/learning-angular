@@ -52,9 +52,16 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <button class="dropdown-item" type="button" (click)="logout()">
-          Logout
-        </button>
+        <p-overlay-badge severity="success">
+          <p-avatar
+            icon="pi pi-user"
+            size="normal"
+            shape="circle"
+            (click)="menu.toggle($event)"
+            [style]="{ cursor: 'pointer' }"
+          ></p-avatar>
+        </p-overlay-badge>
+        <p-menu #menu [popup]="true" [model]="userMenuItems"></p-menu>
       </ul>
     </div>
   </div>
