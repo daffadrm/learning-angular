@@ -35,6 +35,10 @@
   --p-button-primary-active-border-color: #c2410c;
 }
 
+.p-error {
+  color: var(--p-red-500);
+}
+
 /* .p-theme {
   --p-primary-50: #fff7ed;
   --p-primary-100: #ffedd5;

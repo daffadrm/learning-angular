@@ -52,7 +52,16 @@
             routerLink="/orders"
             routerLinkActive="active"
             *ngIf="user.role === 'admin'"
-            >Orders</a
+            >Pesanan</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/master-users"
+            routerLinkActive="active"
+            *ngIf="user.role === 'admin'"
+            >Master Pengguna</a
           >
         </li>
       </ul>

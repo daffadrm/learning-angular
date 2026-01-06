@@ -1,0 +1,175 @@
+<div class="p-2">
+  <div style="display: flex; gap: 10px; justify-content: space-between">
+    <p-multiselect
+      display="chip"
+      [options]="cols"
+      [(ngModel)]="selectedColumns"
+      optionLabel="header"
+      selectedItemsLabel="{0} kolom dipilih"
+      [style]="{ 'min-width': '200px' }"
+      placeholder="Pilih Kolom"
+      (onChange)="onColumnToggle()"
+    ></p-multiselect>
+    <button
+      pButton
+      icon="pi pi-plus"
+      class="p-button-sm p-button-warning"
+      (click)="openCreate()"
+    >
+      Tambah Pengguna
+    </button>
+  </div>
+  <div class="card p-2 mt-2">
+    <p-table
+      #dt
+      [lazy]="true"
+      (onLazyLoad)="loadOrders($event)"
+      [columns]="selectedColumns"
+      [value]="users"
+      [loading]="loading"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [rows]="15"
+      [rowsPerPageOptions]="[15, 50, 100, 500, 1000]"
+      [totalRecords]="totalRecords"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [scrollable]="true"
+      scrollHeight="500px"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Menampilkan {first} hingga {last} dari {totalRecords} data"
+    >
+      <ng-template #header let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-product let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <ng-container [ngSwitch]="col.type">
+              <span *ngSwitchCase="'date'">
+                {{ product[col.field] | date : "dd/MM/yyyy, HH:mm" }}
+              </span>
+
+              <span *ngSwitchCase="'action'" style="display: flex; gap: 10px">
+                <button
+                  pButton
+                  icon="pi pi-pencil"
+                  class="p-button-sm p-button-warning"
+                  (click)="onEdit(product)"
+                ></button>
+
+                <button
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-sm p-button-danger"
+                  (click)="onDelete(product)"
+                ></button>
+              </span>
+
+              <span *ngSwitchDefault>
+                {{ product[col.field] || "-" }}
+              </span>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <span> Data Pesanan</span>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<p-dialog
+  [(visible)]="showDialog"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  [header]="isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'"
+>
+  <form #userForm="ngForm" novalidate>
+    <div class="p-fluid">
+      <div class="field" style="display: flex; flex-direction: column">
+        <label>Username</label>
+        <input
+          pInputText
+          name="username"
+          [(ngModel)]="formUser.username"
+          required
+          minlength="3"
+          #username="ngModel"
+          [readonly]="isEdit"
+        />
+        <small
+          class="p-error"
+          *ngIf="username.invalid && (username.dirty || username.touched)"
+        >
+          <span *ngIf="username.errors?.['required']">
+            Username wajib diisi
+          </span>
+          <span *ngIf="username.errors?.['minlength']">
+            Minimal 3 karakter
+          </span>
+        </small>
+      </div>
+
+      <div class="field" style="display: flex; flex-direction: column">
+        <label>Real Name</label>
+        <input
+          pInputText
+          name="name"
+          [(ngModel)]="formUser.name"
+          required
+          #realname="ngModel"
+        />
+        <small
+          class="p-error"
+          *ngIf="realname.invalid && (realname.dirty || realname.touched)"
+        >
+          Nama wajib diisi
+        </small>
+      </div>
+
+      <div class="field" style="display: flex; flex-direction: column">
+        <label>Role</label>
+        <p-select
+          [options]="roles"
+          optionLabel="label"
+          optionValue="value"
+          name="role"
+          [(ngModel)]="formUser.role"
+          placeholder="Pilih Role"
+          appendTo="body"
+          #role="ngModel"
+        ></p-select>
+        <small
+          class="p-error"
+          *ngIf="role.invalid && (role.dirty || role.touched)"
+        >
+          Role wajib dipilih
+        </small>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-3">
+      <button
+        pButton
+        type="button"
+        label="Batal"
+        class="p-button-text"
+        (click)="closeDialog()"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        [label]="isEdit ? 'Update' : 'Simpan'"
+        (click)="submitForm()"
+        [disabled]="userForm.invalid"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>

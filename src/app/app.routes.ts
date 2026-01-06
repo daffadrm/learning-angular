@@ -9,6 +9,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { roleGuard } from './services/auth/guards/role.guard';
+import { MasterUserComponent } from './pages/master-user/master-user.component';
 
 export const routes: Routes = [
   {
@@ -55,6 +56,12 @@ export const routes: Routes = [
       {
         path: 'orders',
         component: OrdersComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
+      },
+      {
+        path: 'master-users',
+        component: MasterUserComponent,
         canActivate: [roleGuard],
         data: { roles: ['admin'] },
       },
