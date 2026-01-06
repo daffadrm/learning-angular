@@ -42,11 +42,16 @@
             class="nav-link"
             routerLink="/master-label"
             routerLinkActive="active"
+            *ngIf="user.role === 'admin'"
             >Master Label</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/orders" routerLinkActive="active"
+          <a
+            class="nav-link"
+            routerLink="/orders"
+            routerLinkActive="active"
+            *ngIf="user.role === 'admin'"
             >Orders</a
           >
         </li>

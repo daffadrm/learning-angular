@@ -18,7 +18,20 @@ export class LoginComponent {
 
   login() {
     if (this.username === 'admin' && this.password === 'admin') {
-      this.auth.login('dummy-token');
+      const data = {
+        username: 'admin',
+        realname: 'Admin Flexo',
+        role: 'admin',
+      };
+      this.auth.login(data);
+      this.router.navigate(['/']);
+    } else if (this.username === 'staff' && this.password === 'staff') {
+      const data = {
+        username: 'staff',
+        realname: 'Staff Flexo',
+        role: 'staff',
+      };
+      this.auth.login(data);
       this.router.navigate(['/']);
     } else {
       alert('Username atau password salah!');

@@ -30,11 +30,29 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 export class LayoutComponent {
   constructor(private router: Router, private auth: AuthService) {}
 
+  get user() {
+    return JSON.parse(sessionStorage.getItem('user_session') || '{}');
+  }
+
   userMenuItems: MenuItem[] = [
     {
-      label: 'Logout',
-      icon: 'pi pi-sign-out',
-      command: () => this.logout(),
+      label: this.user?.realname || 'User',
+      icon: 'pi pi-user',
+      items: [
+        {
+          label: `${this.user?.role}`,
+          icon: 'pi pi-shield',
+          disabled: true,
+        },
+        {
+          separator: true,
+        },
+        {
+          label: 'Logout',
+          icon: 'pi pi-sign-out',
+          command: () => this.logout(),
+        },
+      ],
     },
   ];
   logout() {

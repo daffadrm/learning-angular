@@ -8,6 +8,7 @@ import { MasterLabelDetailComponent } from './pages/master-label-detail/master-l
 import { OrdersComponent } from './pages/orders/orders.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
+import { roleGuard } from './services/auth/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -23,27 +24,39 @@ export const routes: Routes = [
       {
         path: 'home',
         component: DashboardComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'staff'] },
       },
 
       {
         path: 'label',
         component: LabelComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'staff'] },
       },
       {
         path: 'editor',
         component: EditorComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'staff'] },
       },
       {
         path: 'master-label',
         component: MasterLabelComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
       },
       {
         path: 'master-label/detail/:id',
         component: MasterLabelDetailComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
       },
       {
         path: 'orders',
         component: OrdersComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
