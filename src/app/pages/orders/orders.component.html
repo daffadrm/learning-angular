@@ -72,7 +72,7 @@
               </span>
 
               <span *ngSwitchDefault>
-                {{ product[col.field] }}
+                {{ product[col.field] || "-" }}
               </span>
             </ng-container>
           </td>
