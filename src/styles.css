@@ -9,7 +9,7 @@
   background-color: #e65c00 !important;
 }
 
-:root {
+/* :root {
   --p-primary-color: #f97316 !important;
   --p-primary-contrast-color: #ffffff !important;
 
@@ -33,7 +33,7 @@
 
   --p-button-primary-active-background: #c2410c;
   --p-button-primary-active-border-color: #c2410c;
-}
+} */
 
 .p-error {
   color: var(--p-red-500);

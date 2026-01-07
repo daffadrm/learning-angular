@@ -5,9 +5,9 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
+import Aura from '@primeng/themes/aura';
 import { provideHttpClient } from '@angular/common/http';
-import Lara from '@primeuix/themes/lara';
+import { definePreset } from '@primeng/themes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,11 +17,26 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     providePrimeNG({
       theme: {
-        preset: Lara,
+        preset: definePreset(Aura, {
+          semantic: {
+            primary: {
+              50: '#FFF3EB',
+              100: '#FFE0CC',
+              200: '#FFC299',
+              300: '#FFA366',
+              400: '#FF8533',
+              500: '#FF6600',
+              600: '#E65C00',
+              700: '#CC5200',
+              800: '#B34700',
+              900: '#993D00',
+              950: '#662900',
+            },
+          },
+        }),
+
         options: {
-          prefix: 'p',
-          darkModeSelector: 'none',
-          cssLayer: false,
+          darkModeSelector: false || 'none',
         },
       },
     }),
