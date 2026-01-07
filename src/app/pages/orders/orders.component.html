@@ -29,12 +29,21 @@
       class="p-button-sm p-button-primary"
     ></button> -->
 
-    <p-splitButton
+    <!-- <p-splitButton
       label="Export"
       icon="pi pi-download"
       [model]="exportItems"
       size="small"
-    ></p-splitButton>
+    ></p-splitButton> -->
+
+    <button
+      pButton
+      icon="pi pi-file-excel"
+      label="Export Data"
+      class="p-button"
+      (click)="openExportModal()"
+      size="small"
+    ></button>
   </div>
   <div class="card p-2 mt-2">
     <p-table
@@ -84,3 +93,125 @@
     </p-table>
   </div>
 </div>
+
+<p-dialog
+  header="Export Data"
+  [(visible)]="showExportModal"
+  [modal]="true"
+  [style]="{ width: '900px' }"
+  [draggable]="false"
+>
+  <span class="font-medium">Template</span>
+
+  <div
+    class="flex align-items-center gap-2 mb-3"
+    style="display: flex; align-items: center"
+  >
+    <p-select
+      [options]="templates"
+      optionLabel="name"
+      optionValue="id"
+      [(ngModel)]="selectedTemplateId"
+      placeholder="(Tanpa Template)"
+      showClear="true"
+      class="w-20rem"
+      (onChange)="onTemplateChange($event)"
+    ></p-select>
+
+    <button
+      pButton
+      icon="pi pi-plus"
+      label=""
+      class="p-button"
+      (click)="createTemplate()"
+    ></button>
+
+    <button
+      pButton
+      label=""
+      icon="pi pi-save"
+      class="p-button-secondary"
+      (click)="saveTemplate()"
+      [disabled]="!selectedTemplateId"
+    ></button>
+
+    <button
+      pButton
+      label=""
+      icon="pi pi-trash"
+      class="p-button-danger p-button-outlined"
+      (click)="deleteTemplate()"
+      [disabled]="!selectedTemplateId"
+    ></button>
+
+    <div
+      class="flex align-items-center gap-3 ml-auto"
+      style="display: flex; margin-left: auto"
+    >
+      <span class="font-medium">Format Export</span>
+
+      <p-select
+        [options]="exportFormatOptions"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="exportFormat"
+        class="w-14rem"
+      ></p-select>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col-12">
+      <p-pickList
+        [source]="allColumns"
+        [target]="exportColumns"
+        sourceHeader="All Columns"
+        targetHeader="Selected Columns"
+        dragdrop="true"
+        [responsive]="true"
+        filterBy="header"
+        sourceFilterPlaceholder="Cari kolom"
+        targetFilterPlaceholder="Cari kolom"
+        dataKey="field"
+        breakpoint="100px"
+        [showSourceControls]="false"
+        [showTargetControls]="false"
+        (onMoveToTarget)="syncAfterMove()"
+        (onMoveToSource)="syncAfterMove()"
+        (onMoveAllToTarget)="syncAfterMove()"
+        (onMoveAllToSource)="syncAfterMove()"
+      >
+        <ng-template let-col pTemplate="item">
+          <div class="flex align-items-center" style="display: flex; gap: 5px">
+            <i class="pi pi-bars mr-2"></i>
+            <span>{{ col.header }}</span>
+          </div>
+        </ng-template>
+      </p-pickList>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
+  <div class="flex justify-content-end gap-2" style="display: flex">
+    <button
+      pButton
+      label="Batal"
+      class="p-button-text"
+      (click)="showExportModal = false"
+    ></button>
+    <button
+      pButton
+      label="Export"
+      icon="pi pi-download"
+      (click)="confirmExport()"
+    ></button>
+    <button
+      pButton
+      label="Export All Data"
+      icon="pi pi-download"
+      (click)="confirmExportAll()"
+    ></button>
+  </div>
+</p-dialog>
+<p-confirmDialog></p-confirmDialog>

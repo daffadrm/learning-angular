@@ -6,12 +6,24 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { Order, OrdersService } from '../../services/orders/orders.service';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { DialogModule } from 'primeng/dialog';
+import { PickListModule } from 'primeng/picklist';
+import { DividerModule } from 'primeng/divider';
+import { Select } from 'primeng/select';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 interface Column {
   field: string;
   header: string;
   type?: string;
   default?: boolean;
+}
+
+export interface ExportTemplate {
+  id: string;
+  name: string;
+  columns: Column[];
 }
 
 @Component({
@@ -24,7 +36,13 @@ interface Column {
     ButtonModule,
     FormsModule,
     SplitButtonModule,
+    DialogModule,
+    DividerModule,
+    PickListModule,
+    Select,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css',
 })
@@ -42,6 +60,22 @@ export class OrdersComponent implements OnInit {
   loading = false;
   rows = 15;
   totalRecords = 0;
+
+  showExportModal = false;
+
+  allColumns: Column[] = [];
+  exportColumns: Column[] = [];
+
+  templates: ExportTemplate[] = [];
+  selectedTemplate: ExportTemplate | null = null;
+
+  selectedTemplateId: string | null = null;
+  exportFormat: 'csv' | 'excel' = 'csv';
+
+  exportFormatOptions = [
+    { label: 'CSV', value: 'csv' },
+    { label: 'Excel', value: 'excel' },
+  ];
 
   @ViewChild('dt') table!: Table;
 
@@ -69,12 +103,22 @@ export class OrdersComponent implements OnInit {
       icon: 'pi pi-database',
       command: () => this.exportAll('excel'),
     },
+    {
+      label: 'Export Custom',
+      icon: 'pi pi-cog',
+      command: () => this.openExportModal(),
+    },
   ];
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit() {
     this.selectedColumns = this.cols.filter((col) => col.default);
+    const saved = localStorage.getItem('order_export_templates');
+    this.templates = saved ? JSON.parse(saved) : [];
   }
 
   onColumnToggle() {
@@ -180,9 +224,9 @@ export class OrdersComponent implements OnInit {
 
     this.ordersService.getOrders(this.totalRecords, 0).subscribe((res: any) => {
       if (type === 'csv') {
-        this.exportAllCSV(res.data);
+        this.exportCSVCustom(res.data);
       } else {
-        this.exportAllExcel(res.data);
+        this.exportExcelCustom(res.data);
       }
       this.loading = false;
     });
@@ -203,6 +247,173 @@ export class OrdersComponent implements OnInit {
       error: () => {
         this.loading = false;
       },
+    });
+  }
+  openExportModal() {
+    this.selectedTemplateId = null;
+    const selectedFields = new Set(this.selectedColumns.map((c) => c.field));
+
+    this.exportColumns = this.cols.filter((c) => selectedFields.has(c.field));
+
+    this.allColumns = this.cols.filter((c) => !selectedFields.has(c.field));
+
+    this.showExportModal = true;
+  }
+
+  confirmExport() {
+    const pageData = [...this.orders];
+
+    if (!this.exportColumns.length) return;
+
+    if (this.exportFormat === 'csv') {
+      this.exportCSVCustom(pageData);
+    } else {
+      this.exportExcelCustom(pageData);
+    }
+
+    this.showExportModal = false;
+  }
+
+  confirmExportAll() {
+    if (!this.exportColumns.length) return;
+
+    if (this.exportFormat === 'csv') {
+      this.exportAll('csv');
+    } else {
+      this.exportAll('excel');
+    }
+
+    this.showExportModal = false;
+  }
+  onTemplateChange(event: any) {
+    const templateId = event.value;
+
+    let selectedFields: Set<string>;
+
+    if (!templateId) {
+      selectedFields = new Set(this.selectedColumns.map((c) => c.field));
+    } else {
+      const template = this.templates.find((t) => t.id === templateId);
+      if (!template) return;
+
+      selectedFields = new Set(template.columns.map((c) => c.field));
+    }
+
+    this.exportColumns = this.cols.filter((c) => selectedFields.has(c.field));
+
+    this.allColumns = this.cols.filter((c) => !selectedFields.has(c.field));
+  }
+  syncAfterMove() {
+    this.exportColumns = [...this.exportColumns];
+    this.allColumns = [...this.allColumns];
+  }
+
+  resetAllColumns() {
+    const selectedFields = new Set(this.exportColumns.map((c) => c.field));
+
+    this.allColumns = this.cols.filter((c) => !selectedFields.has(c.field));
+  }
+
+  createTemplate() {
+    const name = prompt('Nama template');
+    if (!name) return;
+
+    const newTemplate: ExportTemplate = {
+      id: Date.now().toString(),
+      name,
+      columns: [...this.exportColumns],
+    };
+
+    this.templates.push(newTemplate);
+    this.selectedTemplate = newTemplate;
+    this.saveTemplates();
+  }
+
+  saveTemplate() {
+    if (!this.selectedTemplateId) return;
+
+    const index = this.templates.findIndex(
+      (t) => t.id === this.selectedTemplateId
+    );
+
+    if (index === -1) return;
+
+    this.templates[index] = {
+      ...this.templates[index],
+      columns: this.exportColumns.map((c) => ({ ...c })),
+    };
+
+    this.saveTemplates();
+  }
+  saveTemplates() {
+    localStorage.setItem(
+      'order_export_templates',
+      JSON.stringify(this.templates)
+    );
+  }
+
+  deleteTemplate() {
+    if (!this.selectedTemplateId) return;
+
+    this.confirmationService.confirm({
+      message: 'Yakin ingin menghapus template ini?',
+      header: 'Hapus Template',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.templates = this.templates.filter(
+          (t) => t.id !== this.selectedTemplateId
+        );
+
+        this.selectedTemplateId = null;
+        this.exportColumns = this.selectedColumns.map((c) => ({ ...c }));
+        this.resetAllColumns();
+
+        this.saveTemplates();
+      },
+    });
+  }
+
+  exportCSVCustom(data: any[]) {
+    if (!this.exportColumns.length) {
+      console.warn('Kolom export kosong');
+      return;
+    }
+
+    const headers = this.exportColumns.map((c) => c.header);
+    const fields = this.exportColumns.map((c) => c.field);
+
+    const rows = data.map((row) =>
+      fields.map((f) => `"${row[f] ?? ''}"`).join(',')
+    );
+
+    const csv = headers.join(',') + '\n' + rows.join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `orders_${Date.now()}.csv`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  exportExcelCustom(data: any[]) {
+    import('xlsx').then((xlsx) => {
+      const rows = data.map((row: any) => {
+        const obj: any = {};
+        this.exportColumns.forEach((col) => {
+          obj[col.header] = row[col.field];
+        });
+        return obj;
+      });
+
+      const ws = xlsx.utils.json_to_sheet(rows);
+      const wb = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(wb, ws, 'Orders');
+
+      xlsx.writeFile(wb, `orders_${Date.now()}.xlsx`);
     });
   }
 }
