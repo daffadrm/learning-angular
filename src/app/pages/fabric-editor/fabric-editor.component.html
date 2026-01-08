@@ -1,0 +1,34 @@
+<div class="parent">
+  <div class="toolbar">
+    <button pButton icon="pi pi-table" (click)="toggleGrid()">
+      {{ showGrid ? "Hide Grid" : "Show Grid" }}
+    </button>
+    <button pButton (click)="addText()" icon="pi pi-plus" style="width: 80px">
+      Text
+    </button>
+    <input type="file" (change)="addImage($event)" />
+    <!-- <button (click)="toggleRectMode()">Kotak</button> -->
+    <input #colorPicker type="color" (input)="setFill(colorPicker.value)" />
+
+    <button pButton icon="pi pi-circle" (click)="addCircle()">Circle</button>
+    <button pButton icon="pi pi-caret-up" (click)="addTriangle()">
+      Triangle
+    </button>
+    <button pButton icon="pi pi-minus" (click)="addLine()">Line</button>
+    <button pButton icon="pi pi-stop" (click)="addOutlineRect()">Shape</button>
+    <div class="shape-panel" *ngIf="selectedShape">
+      <span>Style</span>
+
+      <button (click)="setRectFilled()">Filled</button>
+      <button (click)="setRectOutline()">Outline</button>
+      <button (click)="toggleRadius()">Radius</button>
+    </div>
+
+    <button pButton icon="pi pi-copy" (click)="copy()">Copy</button>
+    <button pButton icon="pi pi-clipboard" (click)="paste()">Paste</button>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="canvas"></canvas>
+  </div>
+</div>
