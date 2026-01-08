@@ -64,13 +64,22 @@
             >Master Pengguna</a
           >
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a
             class="nav-link"
             routerLink="/fabric-editor"
             routerLinkActive="active"
             *ngIf="user.role === 'admin'"
             >Fabric Editor</a
+          >
+        </li> -->
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/fabric-list"
+            routerLinkActive="active"
+            *ngIf="user.role === 'admin'"
+            >Fabric List</a
           >
         </li>
       </ul>

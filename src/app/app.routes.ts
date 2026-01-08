@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { roleGuard } from './services/auth/guards/role.guard';
 import { MasterUserComponent } from './pages/master-user/master-user.component';
 import { FabricEditorComponent } from './pages/fabric-editor/fabric-editor.component';
+import { FabricListComponent } from './pages/fabric-list/fabric-list.component';
 
 export const routes: Routes = [
   {
@@ -67,8 +68,14 @@ export const routes: Routes = [
         data: { roles: ['admin'] },
       },
       {
-        path: 'fabric-editor',
+        path: 'fabric-editor/:id',
         component: FabricEditorComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
+      },
+      {
+        path: 'fabric-list',
+        component: FabricListComponent,
         canActivate: [roleGuard],
         data: { roles: ['admin'] },
       },

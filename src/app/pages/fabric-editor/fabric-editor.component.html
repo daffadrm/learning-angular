@@ -1,34 +1,173 @@
-<div class="parent">
-  <div class="toolbar">
-    <button pButton icon="pi pi-table" (click)="toggleGrid()">
-      {{ showGrid ? "Hide Grid" : "Show Grid" }}
-    </button>
-    <button pButton (click)="addText()" icon="pi pi-plus" style="width: 80px">
-      Text
-    </button>
-    <input type="file" (change)="addImage($event)" />
-    <!-- <button (click)="toggleRectMode()">Kotak</button> -->
-    <input #colorPicker type="color" (input)="setFill(colorPicker.value)" />
-
-    <button pButton icon="pi pi-circle" (click)="addCircle()">Circle</button>
-    <button pButton icon="pi pi-caret-up" (click)="addTriangle()">
-      Triangle
-    </button>
-    <button pButton icon="pi pi-minus" (click)="addLine()">Line</button>
-    <button pButton icon="pi pi-stop" (click)="addOutlineRect()">Shape</button>
-    <div class="shape-panel" *ngIf="selectedShape">
-      <span>Style</span>
-
-      <button (click)="setRectFilled()">Filled</button>
-      <button (click)="setRectOutline()">Outline</button>
-      <button (click)="toggleRadius()">Radius</button>
+<div class="flex flex-column">
+  <div class="field flex flex-row gap-2">
+    <div class="mr-5 mt-4">
+      <button pButton icon="pi pi-arrow-left" (click)="goBack()">
+        Kembali
+      </button>
+    </div>
+    <div>
+      <label>Name</label>
+      <input
+        pInputText
+        class="w-full"
+        name="name"
+        [(ngModel)]="formEditor.name"
+      />
     </div>
 
-    <button pButton icon="pi pi-copy" (click)="copy()">Copy</button>
-    <button pButton icon="pi pi-clipboard" (click)="paste()">Paste</button>
+    <div>
+      <label>Description</label>
+      <input
+        pInputText
+        rows="3"
+        class="w-full"
+        name="description"
+        [(ngModel)]="formEditor.description"
+      />
+    </div>
+    <div class="mt-4 items-center ml-auto">
+      <button pButton icon="pi pi-save" (click)="saveCanvas()" class="ml-auto">
+        Save
+      </button>
+    </div>
   </div>
+  <div class="parent">
+    <div class="toolbar">
+      <!-- <button pButton icon="pi pi-table" (click)="toggleGrid()">
+        {{ showGrid ? "Hide Grid" : "Show Grid" }}
+      </button> -->
+      <button
+        pButton
+        severity="secondary"
+        (click)="newCanvas()"
+        class="icon-top-btn"
+      >
+        <i class="pi pi-file"></i>
+        New
+      </button>
+      <input #colorPicker type="color" (input)="setFill(colorPicker.value)" />
 
-  <div class="canvas-wrapper">
-    <canvas id="canvas"></canvas>
+      <button
+        pButton
+        (click)="addText()"
+        class="icon-top-btn"
+        severity="secondary"
+      >
+        <i class="pi pi-plus"></i>
+        <span> Text </span>
+      </button>
+      <!-- <button (click)="toggleRectMode()">Kotak</button> -->
+
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="addCircle()"
+        severity="secondary"
+      >
+        <i class="pi pi-circle"></i>
+        <span>Circle</span>
+      </button>
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="addTriangle()"
+        severity="secondary"
+      >
+        <i class="pi pi-caret-up"></i>
+        <span> Triangle </span>
+      </button>
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="addLine()"
+        severity="secondary"
+      >
+        <i class="pi pi-minus"></i>
+        <span> Line </span>
+      </button>
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="addOutlineRect()"
+        severity="secondary"
+      >
+        <i class="pi pi-stop"></i>
+        <span> Shape </span>
+      </button>
+
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="copy()"
+        severity="secondary"
+      >
+        <i class="pi pi-copy"></i>
+        <span> Copy </span>
+      </button>
+      <button
+        pButton
+        icon="pi pi-clipboard"
+        (click)="paste()"
+        severity="secondary"
+      >
+        Paste
+      </button>
+      <input
+        type="file"
+        (change)="addImage($event)"
+        hidden
+        #imageInput
+        accept="image/*"
+      />
+
+      <button
+        pButton
+        class="icon-top-btn"
+        (click)="imageInput.click()"
+        severity="secondary"
+      >
+        <i class="pi pi-image"></i>
+        <span> Image </span>
+      </button>
+
+      <!-- <div class="shape-panel" *ngIf="selectedShape">
+        <span>Style</span>
+
+        <button (click)="setRectFilled()" pButton severity="primary">
+          Filled
+        </button>
+
+        <p-button
+          label="Outline"
+          variant="outlined"
+          (click)="setRectOutline()"
+        />
+
+        <p-button
+          label="Radius"
+          [rounded]="true"
+          severity="primary"
+          (click)="toggleRadius()"
+        />
+      </div> -->
+
+      <!-- <button
+        pButton
+        icon="pi pi-table"
+        label="Table"
+        (click)="addTable()"
+      ></button> -->
+
+      <p-splitbutton
+        label="Style"
+        [model]="itemsStyle"
+        *ngIf="selectedShape"
+        severity="secondary"
+      />
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="canvas"></canvas>
+    </div>
   </div>
 </div>
